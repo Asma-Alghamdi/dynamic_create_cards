@@ -2,10 +2,7 @@ import React, {Component} from "react";
 import {render} from "react-dom";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import  Cards from "./components/cards";
-import  Result from "./components/result";
-//import 'bootstrap/dist/css/bootstrap.min.css';
-
-
+import  CardInfo from "./components/cardInfo";
 
 
 export default class App extends Component{
@@ -19,7 +16,7 @@ export default class App extends Component{
    
           <Switch>
             <Route path="/" exact component={() => <Cards />} />
-            <Route path="/CardInfo" exact component={() => <Result />} />
+            <Route path="/CardInfo" exact component={() => <CardInfo />} />
          
           </Switch>
        

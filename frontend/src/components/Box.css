@@ -1,4 +1,4 @@
-
+/*The style of each card*/
 .box {
     border-width: medium;
     border-color: black;
@@ -7,16 +7,25 @@
     margin: 15px;
 }
 
+.box:hover {
+  -webkit-transform: scale(1.1);
+  -moz-transform: scale(1.1);
+  -o-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+/*The style of images*/
 .bodyImg {
     border-radius: 10px 10px 0px 0px;
     height: 200px;
 }
 
+/*The style of the body text*/
 .bodytext{
 background-color: rgba(179, 228, 228, 0.397);
 }
   
-
+/*The style of the button that appear in each card*/
 .buttonStyle{
   color: black;
   background-color: rgb(179, 228, 228);
@@ -29,34 +38,23 @@ background-color: rgba(179, 228, 228, 0.397);
   background-color: rgb(194, 67, 25);
 }
 
+/*The style of present the cards*/
+.rowC{display:flex;  flex-wrap: wrap; flex-direction:row;}
+
 
 .grid {
-   
   min-height: 100%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
- 
-  
 }
-
 
 
 .grid > div {
   flex-basis: calc(28% - 40px);
 }
 
-
-.box:hover {
-  -webkit-transform: scale(1.1);
-  -moz-transform: scale(1.1);
-  -o-transform: scale(1.1);
-  transform: scale(1.1);
-}
-
-.rowC{display:flex;  flex-wrap: wrap; flex-direction:row;}
-
-
+/*The style of filter box*/
 .fillterPosisition{
     position: "sticky"; 
 }

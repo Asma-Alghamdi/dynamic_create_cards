@@ -2,20 +2,9 @@ from fastapi import FastAPI, File, UploadFile, Depends, status, Form, HTTPExcept
 from fastapi.middleware.cors import CORSMiddleware
 import io
 from base64 import b64decode
-
-
-
-
-
-#from models.user import User 
 from .config.db import conn 
 from .schemas.card import cardEntity, cardsEntity
 from bson import ObjectId
-
-
-
-
-
 
 ######################################-----API-----######################################
 app = FastAPI()
@@ -34,48 +23,43 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-
-
-
 ######################################-----Defult Get-----######################################
         
 @app.get("/", tags=["root"])
 async def read_root() -> dict:
     return {"message": "Welcome to the Cards API."}
 
-######################################-----GET and POST user information-----######################################
+######################################-----GET and POST cards information-----######################################
 
-
+#Get all cards from the database.
 @app.get("/card", tags=["card"])
 async def get_cards() -> dict:
     n=cardsEntity(conn.test.cards.find())
     m=[]
     for x in n:
         m.append(x)
-        #print(x)
-    #print(m)
     return m
    
-
+#Insert a new card.
 @app.post("/card", tags=["card"])
 async def add_card(card: dict) -> dict:
     conn.test.cards.insert_one(card)
 
 
-
+#Get a list of different titles of the cards that existed in the database.
 @app.get("/title", tags=["card"])
 async def get_titles() -> dict:
-    n=conn.test.cards.distinct("title")
+    titles=conn.test.cards.distinct("title")
     item = ["title"]
 
-    m=[]
-    for x in n:
+    titlesList=[]
+    for x in titles:
         j=[]
         j.append(x)
         title_dictionary = dict(zip(item, j))
-        m.append(title_dictionary)
+        titlesList.append(title_dictionary)
       
-    return m
+    return titlesList
     
     
 

@@ -10,26 +10,9 @@ import {
   Link,
   Redirect,
 } from "react-router-dom";
-import Result from "./result";
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import Button from '@material-ui/core/Button';
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import Grid from "@material-ui/core/Grid";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormLabel from '@material-ui/core/FormLabel';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import Checkbox from '@material-ui/core/Checkbox';
-
-
-const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-const checkedIcon = <CheckBoxIcon fontSize="small" />;
-
-
 
 
 export default class Cards extends Component {
@@ -38,22 +21,21 @@ export default class Cards extends Component {
     super(props);
     this.state = {
       cardsInfo: [],
-      titles:[],
+      titles: [],
       customCard: [],
-      option: '',
+      option: "",
     };
 
     this.renderCard = this.renderCard.bind(this);
-    this.test = this.test.bind(this);
+    this.getCards = this.getCards.bind(this);
     this.getTitles = this.getTitles.bind(this);
-    this.onClickNext = this.onClickNext.bind(this);
     this.handleOptionSelect = this.handleOptionSelect.bind(this);
     this.getContect = this.getContect.bind(this);
-    this.test();
+    this.getCards();
     this.getTitles();
-
   }
 
+  //Show the collection of cards
   renderCard(card, index) {
     return (
       <Card key={index} className="box">
@@ -66,7 +48,7 @@ export default class Cards extends Component {
               pathname: "/CardInfo",
               state: card,
             }}
-            style={{ textDecoration: 'none' }}
+            style={{ textDecoration: "none" }}
             className="buttonStyle"
           >
             Show
@@ -76,81 +58,70 @@ export default class Cards extends Component {
     );
   }
 
-  onClickNext() {
-    console.log("yes");
-    return <div></div>;
-  }
-  test() {
+//Get the cards with their information from the database. 
+  getCards() {
     axios.get("http://localhost:8000/card").then((res) => {
       const cardInfo = res.data;
       this.setState({
-        cardsInfo :cardInfo,
+        cardsInfo: cardInfo,
       });
     });
-  
   }
 
-  getTitles(){
+  //Get a list of different titles of the cards that existed in the database.
+  getTitles() {
     axios.get("http://localhost:8000/title").then((res) => {
       const title = res.data;
-    
+
       this.setState({
-        titles :title,
+        titles: title,
       });
     });
-    
   }
 
-  handleOptionSelect (e){
+  //Handling the changes of the filter box.
+  handleOptionSelect(e) {
     this.setState({
-      option :e.currentTarget.innerText,
+      option: e.currentTarget.innerText,
     });
   }
 
-  getContect (e){
+  //Get the cards (the content of the page) based on the filter selected.
+  getContect(e) {
     const t = this.state.cardsInfo;
-    if(e === ''){
-      return(t.map(this.renderCard));
-    }else{
-      return(t.filter(person => person.title === e).map(this.renderCard));
-    };
+    if (e === "") {
+      return t.map(this.renderCard);
+    } else {
+      return t.filter((person) => person.title === e).map(this.renderCard);
+    }
   }
 
-
-
   render() {
-    const t = this.state.cardsInfo;
-    const m= this.state.titles;
-    console.log(m);
-    const l = this.state.option;
-    console.log(l);
-    
-    return (
-      <div style={{ padding: 60, margin:40,}} className='rowC'>
-      <Grid container direction="column" justify="top" spacing={1}>
-        <Grid item xs={4}>
-          <div style={{ paddingRight: 30, } } className='fillterPosisition'>
-            <p className="font-weight-bold">FILTER</p>
-           
-            <Autocomplete
-              id="combo-box-demo1"
-              options={m}
-              getOptionLabel={(option) => option.title}
-              style={{ width: 215, marginBottom: 8 }}
-              onInputChange={this.handleOptionSelect}
-              renderInput={(params) => (
-                <TextField {...params} label="Title" variant="outlined" />
-              )}
-              
-            />
-          
-        
-          
    
-          </div>
+    const listTitles = this.state.titles;
+    const userOption = this.state.option;
+
+    return (
+      <div style={{ padding: 60, margin: 40 }} className="rowC">
+        <Grid container direction="column" justify="top" spacing={1}>
+          <Grid item xs={4}>
+            <div style={{ paddingRight: 30 }} className="fillterPosisition">
+              <p className="font-weight-bold">FILTER</p>
+
+              <Autocomplete
+                id="combo-box-demo1"
+                options={listTitles}
+                getOptionLabel={(option) => option.title}
+                style={{ width: 215, marginBottom: 8 }}
+                onInputChange={this.handleOptionSelect}
+                renderInput={(params) => (
+                  <TextField {...params} label="Title" variant="outlined" />
+                )}
+              />
+            </div>
+          </Grid>
+          <div className="grid">{this.getContect(userOption)}</div>
         </Grid>
-        <div className="grid">{this.getContect(l)}</div>
-      </Grid>
       </div>
     );
   }
