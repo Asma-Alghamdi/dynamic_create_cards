@@ -1,6 +1,6 @@
 # Dynamic create cards
 
-This repository created dynamic cards using React-Bootstrap. The information of cards retrieves from the MongoDB database using FastAPI. This repository is forked of this useful [one](https://github.com/arslanah99/dynamic-cards-reactbootstrap).
+This repository generates dynamic cards using React-Bootstrap. The card details are fetched from a MongoDB database through FastAPI. It's a fork of another helpful [repository](https://github.com/arslanah99/dynamic-cards-reactbootstrap).
 
 
 
